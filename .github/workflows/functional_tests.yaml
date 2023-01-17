@@ -1,8 +1,5 @@
 name: Kraken Functional Tests
-on:
-  push:
-    branches:
-      - main
+on: issue_comment
 
 jobs:
   crc-create:
