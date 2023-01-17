@@ -32,6 +32,7 @@ jobs:
           -e CREATE_RUN_ID=crc \
           quay.io/crcont/crc-cloud
       - name: oc login & get namespaces
+        continue-on-error: true
         run: |
           lmsan
           CLUSTER_INFO_PATH=$(pwd)/workdir/crc/cluster_infos.json && \
@@ -40,7 +41,6 @@ jobs:
            
       - name: Teardown
         env:
-          if: always() 
           PULL_SECRET: ${{ secrets.PULL_SECRET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
