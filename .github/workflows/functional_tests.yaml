@@ -1,7 +1,8 @@
 name: Kraken Functional Tests
-on: issue_comment
-  types:
-    - created
+on: 
+  issue_comment:
+    types:
+      - created
 
 jobs:
   crc-create:
