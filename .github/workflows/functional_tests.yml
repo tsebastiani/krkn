@@ -9,7 +9,46 @@ jobs:
     if: ${{ github.event.issue.pull_request }} && contains(github.event.comment.body, '/ocp-test')
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo A comment on PR $NUMBER
+      - name: Install oc
+        uses: redhat-actions/oc-installer@v1
+        with:
+          oc_version: latest
+      - name: Create Workdir
+        run: mkdir workdir
+      - name: Pull CRC
+        run: docker pull quay.io/crcont/crc-cloud:latest
+      - name: Run CRC
         env:
-          NUMBER: ${{ github.event.issue.number }}
+          PULL_SECRET: ${{ secrets.PULL_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          docker run -v $(pwd)/workdir:/workdir \
+          -e WORKING_MODE=C \
+          -e PULL_SECRET="$PULL_SECRET" \
+          -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+          -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+          -e AWS_DEFAULT_REGION=us-west-2 \
+          -e CREATE_RUN_ID=crc \
+          quay.io/crcont/crc-cloud
+      - name: oc login & get namespaces
+        run: |
+          lmsan
+          CLUSTER_INFO_PATH=$(pwd)/workdir/crc/cluster_infos.json && \
+          oc login  --insecure-skip-tls-verify -u kubeadmin -p kubeadmin $(jq -r '.api.address' $CLUSTER_INFO_PATH):$(jq -r '.api.port' $CLUSTER_INFO_PATH) && \
+          oc get namespaces
+           
+      - name: Teardown
+        env:
+          if: always() 
+          PULL_SECRET: ${{ secrets.PULL_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          docker run -v "$(pwd)/workdir:/workdir" \
+          -e WORKING_MODE=T \
+          -e TEARDOWN_RUN_ID=crc \
+          -e AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID" \
+          -e AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY" \
+          -e AWS_DEFAULT_REGION=us-west-2 \
+          quay.io/crcont/crc-cloud
