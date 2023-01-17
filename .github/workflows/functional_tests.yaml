@@ -1,9 +1,11 @@
 name: Kraken Functional Tests
 on: issue_comment
+  types:
+    - created
 
 jobs:
   crc-create:
-    if: ${{ github.event.issue.pull_request }} && contains(github.event.comment.body, '/ocp-test')
+    if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
     - name: Run
