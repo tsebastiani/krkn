@@ -1,21 +1,16 @@
-name: Kraken Functional Tests
-on: 
-  issue_comment:
-    types:
-      - created
+on: issue_comment
 
 jobs:
-  crc-create:
+  pr_commented:
+    # This job only runs for pull request comments
+    name: PR comment
     if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
     steps:
-    - name: Run
-      run: |
-        echo "it works!"
-
-    
-
-    
+      - run: |
+          echo A comment on PR $NUMBER
+        env:
+          NUMBER: ${{ github.event.issue.number }}
 
 
 
