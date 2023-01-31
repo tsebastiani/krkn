@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-$OC=`which oc > dev/null 2>&1`
+$OC=`which oc > /dev/null 2>&1`
 $MAX_RETRIES=60
 [[ $? != 0 ]] && echo "[ERROR]: oc CLI missing, please install it and try again" && exit 1
 
