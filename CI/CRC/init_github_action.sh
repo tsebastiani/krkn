@@ -69,3 +69,4 @@ echo "[INF] OCP API address will be available in \${{ env.API_ADDRESS }} with va
 echo "[INF] OCP API port will be available in \${{ env.API_PORT }} with value $API_PORT"
 echo "[INF] OCP node name will be available in \${{ env.NODE_NAME }} with value $NODE_NAME"
 echo "[INF] coverage file will ve available in \${{ env.COVERAGE_FILE }} with value $COVERAGE_FILE"
+
