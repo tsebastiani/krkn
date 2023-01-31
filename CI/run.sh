@@ -1,9 +1,9 @@
 #!/bin/bash
 set -x
+MAX_RETRIES=60
 
-$OC=`which oc > /dev/null 2>&1`
-$MAX_RETRIES=60
-[[ $? != 0 ]] && echo "[ERROR]: oc CLI missing, please install it and try again" && exit 1
+OC=`which oc 2>/dev/null`
+[[ $? != 0 ]] && echo "[ERROR]: oc missing, please install it and try again" && exit 1
 
 wait_cluster_become_ready() {
   COUNT=1
