@@ -1,6 +1,22 @@
 #!/bin/bash
 set -x
 
+$OC=`which oc > dev/null 2>&1`
+$MAX_RETRIES=60
+[[ $? != 0 ]] && echo "[ERROR]: oc CLI missing, please install it and try again" && exit 1
+
+wait_cluster_become_ready() {
+  COUNT=1
+  until `$OC get namespace > /dev/null 2>&1`
+  do
+    echo "[INF] waiting OpenShift to become ready, after $COUNT check"
+    [[ $COUNT == $MAX_RETRIES ]] && echo "[ERR] max retries exceeded, failing" && exit 1
+    ((COUNT++))
+  done 
+}
+
+
+
 ci_tests_loc="CI/tests/my_tests"
 
 echo "running test suit consisting of ${ci_tests}"
@@ -22,5 +38,7 @@ echo '-----------------------|--------|---------' >> $results
 # Run each test
 for test_name in `cat CI/tests/my_tests`
 do
+  wait_cluster_become_ready
   ./CI/run_test.sh $test_name $results
+  wait_cluster_become_ready
 done

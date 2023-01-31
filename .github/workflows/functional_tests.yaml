@@ -73,8 +73,6 @@ jobs:
           echo "test_time"           >> ./CI/tests/my_tests
       - name: Running test suite
         run: |
-          # sleep added to let the instance become stable after the test deployment
-          sleep 60
           ./CI/run.sh
       - name: Print test output
         run:  cat CI/out/*
