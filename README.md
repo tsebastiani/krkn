@@ -26,6 +26,7 @@ Kraken injects deliberate failures into Kubernetes/OpenShift clusters to check i
 The guide is hosted at https://redhat-chaos.github.io/krkn.
 
 
+
 ### How to Get Started
 Instructions on how to setup, configure and run Kraken can be found at [Installation](docs/installation.md).
 
