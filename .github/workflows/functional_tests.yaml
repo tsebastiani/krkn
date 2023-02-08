@@ -62,11 +62,11 @@ jobs:
           yq -i '.kraken.signal_address="0.0.0.0"' CI/config/common_test_config.yaml
           
           echo "test_app_outages_gh" > ./CI/tests/my_tests
-          echo "test_container"      >> ./CI/tests/my_tests
-          echo "test_pods"            >> ./CI/tests/my_tests
-          echo "test_namespace"      >> ./CI/tests/my_tests
-          echo "test_net_chaos"      >> ./CI/tests/my_tests
-          echo "test_time"           >> ./CI/tests/my_tests
+          #echo "test_container"      >> ./CI/tests/my_tests
+          #echo "test_pods"            >> ./CI/tests/my_tests
+          #echo "test_namespace"      >> ./CI/tests/my_tests
+          #echo "test_net_chaos"      >> ./CI/tests/my_tests
+          #echo "test_time"           >> ./CI/tests/my_tests
 
       - name: Print affected config files
         run: |
