@@ -81,9 +81,16 @@ jobs:
         run:  cat CI/out/*
       - name: Create coverage report
         run: |
+          pip install coveralls
           echo "# Test results" > $GITHUB_STEP_SUMMARY
           cat CI/results.markdown >> $GITHUB_STEP_SUMMARY
           echo "# Test coverage" >> $GITHUB_STEP_SUMMARY
-          python -m coverage report --format=markdown >> $GITHUB_STEP_SUMMARY 
+          python -m coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+          coverage -o lcov.info
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: lcov.info
 
 
