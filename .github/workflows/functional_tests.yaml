@@ -85,9 +85,9 @@ jobs:
           pip install coveralls
           echo "# Test results" > $GITHUB_STEP_SUMMARY
           cat CI/results.markdown >> $GITHUB_STEP_SUMMARY
-          echo "# Test coverage" >> $GITHUB_STEP_SUMMARY
-          python -m coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
-          coverage -o lcov.info
+          #echo "# Test coverage" >> $GITHUB_STEP_SUMMARY
+          #python -m coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+          coverage lcov -o lcov.info
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
