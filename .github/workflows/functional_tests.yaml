@@ -64,6 +64,7 @@ jobs:
           yq '.[0].config.namespace_pattern ="^${{env.NAMESPACE}}$"' -i CI/scenarios/hello_pod_killing.yml
           yq '.scenarios.[0].namespace="^openshift-network-diagnostics$"' -i CI/scenarios/ingress_namespace.yaml
           
+          echo "test_pods"           > ./CI/tests/my_tests
           echo "test_app_outages_gh" >> ./CI/tests/my_tests
           echo "test_container"      >> ./CI/tests/my_tests
           echo "test_namespace"      >> ./CI/tests/my_tests
