@@ -119,6 +119,10 @@ jobs:
           cat CI/config/common_test_config.yaml
 
       - name: Running test suite
+        env:
+          telemetry_username: ${{ secrets.telemetry_user }}
+          telemetry_password: ${{ secrets.telemetry_password }}
+          telemetry_bucket: ${{ secrets.telemetry_bucket }}
         run: |
           ./CI/run.sh
       - name: Print test output
