@@ -103,11 +103,15 @@ jobs:
           yq -i '.kraken.port="8081"' CI/config/common_test_config.yaml
           yq -i '.kraken.signal_address="0.0.0.0"' CI/config/common_test_config.yaml
           yq -i '.kraken.kubeconfig_path="'${KUBECONFIG}'"' CI/config/common_test_config.yaml
-          echo "test_app_outages_gh" > ./CI/tests/my_tests
-          echo "test_container"      >> ./CI/tests/my_tests
-          echo "test_namespace"      >> ./CI/tests/my_tests
-          echo "test_net_chaos"      >> ./CI/tests/my_tests
-          echo "test_time"           >> ./CI/tests/my_tests
+          echo "test_telemetry"       > ./CI/tests/my_tests
+          echo "test_arca_cpu_hog"    >> ./CI/tests/my_tests
+          echo "test_arca_memory_hog" >> ./CI/tests/my_tests
+          echo "test_arca_io_hog"     >> ./CI/tests/my_tests
+          echo "test_app_outages_gh"  >> ./CI/tests/my_tests
+          echo "test_container"       >> ./CI/tests/my_tests
+          echo "test_namespace"       >> ./CI/tests/my_tests
+          echo "test_net_chaos"       >> ./CI/tests/my_tests
+          echo "test_time"            >> ./CI/tests/my_tests
 
       - name: Print affected config files
         run: |
