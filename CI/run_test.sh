@@ -11,7 +11,6 @@ function get_time_format() {
   echo $hours:$minutes:$seconds
 }
 ci_test=`echo $1`
-
 results_file=$2
 
 echo -e "\n======================================================================"
@@ -23,7 +22,7 @@ ci_results="CI/out/$ci_test.out"
 
 echo "results $ci_results" >> $ci_results
 SECONDS=0
-if /bin/bash CI/tests/$ci_test.sh >> $ci_results 2>&1
+if /bin/bash CI/tests/$ci_test.sh >> $ci_results
 then
   # if the test passes update the results and complete
   duration=$SECONDS

@@ -39,7 +39,7 @@ echo '-----------------------|--------|---------' >> $results
 # Run each test
 for test_name in `cat CI/tests/my_tests`
 do
-  wait_cluster_become_ready
+  #wait_cluster_become_ready
   ./CI/run_test.sh $test_name $results
-  wait_cluster_become_ready
+  #wait_cluster_become_ready
 done
