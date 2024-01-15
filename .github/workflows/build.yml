@@ -22,7 +22,17 @@ jobs:
           pip install -r requirements.txt
       - name: Run unit tests
         run: python -m coverage run -a -m unittest discover -s tests -v
-      - name: Run CI
+      - name: Setup Functional Tests
+        run: |
+            yq -i '.kraken.port="8081"' CI/config/common_test_config.yaml
+            yq -i '.kraken.signal_address="0.0.0.0"' CI/config/common_test_config.yaml
+            yq -i '.kraken.kubeconfig_path="'${KUBECONFIG}'"' CI/config/common_test_config.yaml
+            echo "test_app_outages_gh" > ./CI/tests/my_tests
+            echo "test_container"      >> ./CI/tests/my_tests
+            echo "test_namespace"      >> ./CI/tests/my_tests
+            echo "test_net_chaos"      >> ./CI/tests/my_tests
+            echo "test_time"           >> ./CI/tests/my_tests
+      - name: Run Functional tests
         run: |
           ./CI/run.sh
           cat ./CI/results.markdown >> $GITHUB_STEP_SUMMARY
