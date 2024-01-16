@@ -53,12 +53,12 @@ jobs:
         run: |
           
           kubectl apply -f CI/templates/container_scenario_pod.yaml
-          kubectl wait --for=condition=ready pod -l scenario=container
+          kubectl wait --for=condition=ready pod -l scenario=container --timeout=300s
           
           kubectl create namespace namespace-scenario
           
           kubectl apply -f CI/templates/time_pod.yaml
-          kubectl wait --for=condition=ready pod -l scenario=time-skew
+          kubectl wait --for=condition=ready pod -l scenario=time-skew --timeout=300s
           
       - name: Get Kind nodes
         run: |
