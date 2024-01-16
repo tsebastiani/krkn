@@ -49,6 +49,21 @@ jobs:
           pip install -r requirements.txt
 #      - name: Run unit tests
 #        run: python -m coverage run -a -m unittest discover -s tests -v
+      - name: Deploy test workloads
+        run: |
+          
+          kubectl apply -f CI/templates/container_scenario_pod.yaml
+          kubectl wait --for=condition=ready pod -l scenario=container
+          
+          kubectl create namespace namespace-scenario
+          
+          kubectl apply -f CI/templates/time_pod.yaml
+          kubectl wait --for=condition=ready pod -l scenario=time-skew
+          
+      - name: Get Kind nodes
+        run: |
+          kubectl get nodes
+
       - name: Setup Functional Tests
         run: |
             yq -i '.kraken.distribution="kubernetes"' CI/config/common_test_config.yaml
@@ -56,8 +71,8 @@ jobs:
             yq -i '.kraken.signal_address="0.0.0.0"' CI/config/common_test_config.yaml
             yq -i '.kraken.performance_monitoring="localhost:9090"' CI/config/common_test_config.yaml
             # echo "test_app_outages_gh" > ./CI/tests/my_tests
-            # echo "test_container"      >> ./CI/tests/my_tests
-            # echo "test_namespace"      >> ./CI/tests/my_tests
+            echo "test_container"      >> ./CI/tests/my_tests
+            echo "test_namespace"      >> ./CI/tests/my_tests
             # echo "test_net_chaos"      >> ./CI/tests/my_tests
             echo "test_time"           >> ./CI/tests/my_tests
       - name: Run Functional tests
