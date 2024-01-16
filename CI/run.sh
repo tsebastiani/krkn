@@ -1,5 +1,4 @@
 #!/bin/bash
-set -x
 MAX_RETRIES=60
 
 KUBECTL=`which kubectl 2>/dev/null`
@@ -55,5 +54,13 @@ then
   echo -e "\n\n======================================================================"
   echo -e "\n     FUNCTIONAL TESTS FAILED  ${failed_tests[*]} ABORTING"
   echo -e "\n======================================================================\n\n"
+
+  for test in "${failed_tests[@]}"
+  do
+    echo -e "\n********** $test KRKN RUN OUTPUT **********\n"
+    cat "CI/out/$test.out"
+    echo -e "\n********************************************\n\n\n\n"
+  done
+
   exit 1
 fi

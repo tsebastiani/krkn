@@ -1,7 +1,6 @@
-name: Build Krkn
+name: Functional & Unit Tests
 on:
   pull_request:
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -51,15 +50,11 @@ jobs:
 #        run: python -m coverage run -a -m unittest discover -s tests -v
       - name: Deploy test workloads
         run: |
-          
           kubectl apply -f CI/templates/container_scenario_pod.yaml
           kubectl wait --for=condition=ready pod -l scenario=container --timeout=300s
-          
           kubectl create namespace namespace-scenario
-          
           kubectl apply -f CI/templates/time_pod.yaml
           kubectl wait --for=condition=ready pod -l scenario=time-skew --timeout=300s
-          
       - name: Get Kind nodes
         run: |
           kubectl get nodes --show-labels=true
@@ -80,10 +75,6 @@ jobs:
           ./CI/run.sh
           cat ./CI/results.markdown >> $GITHUB_STEP_SUMMARY
           echo >> $GITHUB_STEP_SUMMARY
-      - name: Print affected config files
-        run: |
-          echo -e "## CI/config/common_test_config.yaml\n\n"
-          cat CI/config/common_test_config.yaml
       - name: Upload CI logs
         uses: actions/upload-artifact@v3
         with:
