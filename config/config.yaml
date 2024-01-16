@@ -87,6 +87,3 @@ telemetry:
     events_backup: True                                     # enables/disables cluster events collection
 
 
-
-
-
