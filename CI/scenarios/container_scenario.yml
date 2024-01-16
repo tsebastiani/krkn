@@ -3,6 +3,6 @@ scenarios:
   namespace: "default"
   label_selector: "scenario=container"
   container_name: "fedtools"
-  action: "kill 1"
+  action: 1
   count: 1
   retry_wait: 60

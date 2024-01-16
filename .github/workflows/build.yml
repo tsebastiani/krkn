@@ -62,7 +62,7 @@ jobs:
           
       - name: Get Kind nodes
         run: |
-          kubectl get nodes
+          kubectl get nodes --show-labels=true
 
       - name: Setup Functional Tests
         run: |
