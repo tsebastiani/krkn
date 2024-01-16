@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: time_skew
+  name: time-skew
   labels:
-    scenario: time_skew
+    scenario: time-skew
 spec:
   hostNetwork: true
   containers:
