@@ -44,7 +44,7 @@ do
   return_value=`./CI/run_test.sh $test_name $results`
   if [[ $return_value == 1 ]]
   then
-    echo "failed"
+    echo "Failed"
     failed_tests+=("$test_name")
   fi
   wait_cluster_become_ready
@@ -52,6 +52,8 @@ done
 
 if (( ${#failed_tests[@]}>0 ))
 then
-  echo "following tests failed : ${failed_tests[*]}, aborting action"
+  echo -e "\n\n======================================================================"
+  echo -e "\n     FUNCTIONAL TESTS FAILED  ${failed_tests[*]} ABORTING"
+  echo -e "\n======================================================================\n\n"
   exit 1
 fi
