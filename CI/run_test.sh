@@ -14,9 +14,9 @@ ci_test=`echo $1`
 
 results_file=$2
 
-echo -e "\n======================================================================"
-echo -e "     CI test for ${ci_test}                    "
-echo -e "======================================================================\n"
+echo -e "\n======================================================================" >&2
+echo -e "     CI test for ${ci_test}                    " >&2
+echo -e "======================================================================\n" >&2
 
 ci_results="CI/out/$ci_test.out"
 # Test ci
@@ -28,7 +28,7 @@ then
   # if the test passes update the results and complete
   duration=$SECONDS
   duration=$(get_time_format $duration)
-  echo "$ci_test: Successful"
+  echo "$ci_test: Successful" >&2
   echo "$ci_test | Pass | $duration" >> $results_file
   count=$retries
   # return value for run.sh
@@ -36,9 +36,9 @@ then
 else
   duration=$SECONDS
   duration=$(get_time_format $duration)
-  echo "$ci_test: Failed"
+  echo "$ci_test: Failed" >&2
   echo "$ci_test | Fail | $duration" >> $results_file
-  echo "Logs for "$ci_test
+  echo "Logs for "$ci_test >&2
   # return value for run.sh
   echo 1
 fi

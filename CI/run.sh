@@ -42,15 +42,15 @@ for test_name in `cat CI/tests/my_tests`
 do
   wait_cluster_become_ready
   return_value=`./CI/run_test.sh $test_name $results`
-  if (( $return_value==1 ))
+  if [[ $return_value == 1 ]]
   then
-    echo "$test_name failed"
+    echo "failed"
     failed_tests+=("$test_name")
   fi
   wait_cluster_become_ready
 done
 
-if (( ${#failed_tests[@]}>1 ))
+if (( ${#failed_tests[@]}>0 ))
 then
   echo "following tests failed : ${failed_tests[*]}, aborting action"
   exit 1
