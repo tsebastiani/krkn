@@ -31,10 +31,14 @@ then
   echo "$ci_test: Successful"
   echo "$ci_test | Pass | $duration" >> $results_file
   count=$retries
+  # return value for run.sh
+  echo 0
 else
   duration=$SECONDS
   duration=$(get_time_format $duration)
   echo "$ci_test: Failed"
   echo "$ci_test | Fail | $duration" >> $results_file
   echo "Logs for "$ci_test
+  # return value for run.sh
+  echo 1
 fi

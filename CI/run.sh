@@ -2,14 +2,14 @@
 set -x
 MAX_RETRIES=60
 
-OC=`which oc 2>/dev/null`
-[[ $? != 0 ]] && echo "[ERROR]: oc missing, please install it and try again" && exit 1
+KUBECTL=`which kubectl 2>/dev/null`
+[[ $? != 0 ]] && echo "[ERROR]: kubectl missing, please install it and try again" && exit 1
 
 wait_cluster_become_ready() {
   COUNT=1
-  until `$OC get namespace > /dev/null 2>&1`
+  until `$KUBECTL get namespace > /dev/null 2>&1`
   do
-    echo "[INF] waiting OpenShift to become ready, after $COUNT check"
+    echo "[INF] waiting Kubernetes to become ready, after $COUNT check"
     sleep 3
     [[ $COUNT == $MAX_RETRIES ]] && echo "[ERR] max retries exceeded, failing" && exit 1
     ((COUNT++))
@@ -37,9 +37,21 @@ echo 'Test                   | Result | Duration' >> $results
 echo '-----------------------|--------|---------' >> $results
 
 # Run each test
+failed_tests=()
 for test_name in `cat CI/tests/my_tests`
 do
   wait_cluster_become_ready
-  ./CI/run_test.sh $test_name $results
+  return_value=`./CI/run_test.sh $test_name $results`
+  if [[ $return_value == 1 ]]
+  then
+    echo "$test_name failed"
+    failed_tests+=("$test_name")
+  fi
   wait_cluster_become_ready
 done
+
+if (( ${#failed_tests[@]} > 1 ))
+then
+  echo "following tests failed : ${failed_tests[*]}, aborting action"
+  exit 1
+fi
