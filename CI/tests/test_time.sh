@@ -11,7 +11,7 @@ function functional_test_time_scenario {
   export scenario_file="CI/scenarios/time_scenarios.yml"
   export post_config=""
   kubectl apply -f CI/templates/time_pod.yaml
-  kubectl wait --for=condition=ready pod -l scenario=time_skew
+  kubectl wait --for=condition=ready pod -l scenario=time-skew
   envsubst < CI/config/common_test_config.yaml > CI/config/time_config.yaml
 
   python3 -m coverage run -a run_kraken.py -c CI/config/time_config.yaml
