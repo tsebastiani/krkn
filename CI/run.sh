@@ -49,6 +49,7 @@ do
   wait_cluster_become_ready
 done
 
+
 if (( ${#failed_tests[@]}>0 ))
 then
   echo -e "\n\n======================================================================"
