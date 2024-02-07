@@ -17,7 +17,7 @@ function functional_test_telemetry {
   export post_config=""
   envsubst < CI/config/common_test_config.yaml > CI/config/telemetry.yaml
   python3 -m coverage run -a run_kraken.py -c CI/config/telemetry.yaml
-  echo "Arcaflow CPU Hog: Success"
+  echo "Telemetry Collection: Success"
 }
 
 functional_test_telemetry
