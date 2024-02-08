@@ -7,7 +7,7 @@ trap finish EXIT
 
 
 function functional_test_telemetry {
-  export RUN_TAG="funtest-telemetry-`date +%s`-"
+  export RUN_TAG="funtest-telemetry"
   #yq -i '.input_list[0].node_selector={"kubernetes.io/hostname":"kind-worker2"}' scenarios/arcaflow/cpu-hog/input.yaml
   yq -i '.telemetry.enabled=True' CI/config/common_test_config.yaml
   yq -i '.telemetry.full_prometheus_backup=True' CI/config/common_test_config.yaml

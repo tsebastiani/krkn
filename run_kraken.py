@@ -391,7 +391,6 @@ def main(cfg):
                     if distribution == "openshift" :
                         prometheus_archive_files = telemetry_ocp.get_ocp_prometheus_data(config["telemetry"], telemetry_request_id)
                     else:
-                        logging.info("starting prometheus archive download:")
                         if (config["telemetry"]["prometheus_namespace"] and
                                 config["telemetry"]["prometheus_pod_name"] and
                                 config["telemetry"]["prometheus_container_name"]):
