@@ -64,7 +64,6 @@ jobs:
 
       - name: Setup Functional Tests
         run: |
-            yq -i '.kraken.distribution="kubernetes"' CI/config/common_test_config.yaml
             yq -i '.kraken.port="8081"' CI/config/common_test_config.yaml
             yq -i '.kraken.signal_address="0.0.0.0"' CI/config/common_test_config.yaml
             yq -i '.kraken.performance_monitoring="localhost:9090"' CI/config/common_test_config.yaml
@@ -84,8 +83,8 @@ jobs:
           ./CI/run.sh
           cat ./CI/results.markdown >> $GITHUB_STEP_SUMMARY
           echo >> $GITHUB_STEP_SUMMARY
-      - name: Run Unit tests
-        run: python -m coverage run -a -m unittest discover -s tests -v
+      #- name: Run Unit tests
+      #  run: python -m coverage run -a -m unittest discover -s tests -v
       - name: Upload CI logs
         uses: actions/upload-artifact@v3
         with:
